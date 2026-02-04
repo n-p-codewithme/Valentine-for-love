@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Junu ❤️</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            background: linear-gradient(180deg, #ffafbd 0%, #ffc3a0 100%);
+            overflow: hidden;
+            padding: 20px;
+        }
+        .container { 
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        img { 
+            width: 100%; 
+            max-width: 220px; 
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            color: #d32f2f; 
+            font-size: 1.5rem; 
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .buttons { 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            gap: 15px; 
+            width: 100%;
+        }
+        #yesBtn { 
+            background-color: #ff4d6d; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 50px; 
+            font-weight: bold;
+            cursor: pointer; 
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            width: fit-content;
+            transition: transform 0.2s ease;
+        }
+        #noBtn { 
+            background-color: #ffffff; 
+            color: #ff4d6d; 
+            border: 2px solid #ff4d6d; 
+            padding: 10px 20px; 
+            border-radius: 50px; 
+            cursor: pointer;
+            font-size: 14px;
+        }
+        /* Heart Animation */
+        .heart {
+            position: fixed;
+            top: -1vh;
+            transform: translateY(0);
+            animation: fall 3s linear forwards;
+            font-size: 24px;
+        }
+        @keyframes fall {
+            to { transform: translateY(105vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContent">
+        <img id="displayImg" src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif" alt="bear">
+        <h1 id="question">"One year wasn't enough. Will you be my Valentine this year, and every year after? Dear JUNU ✨❤️</h1>
+        <div class="buttons" id="btnContainer">
+            <button id="yesBtn" onclick="handleYes()">Yes</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let noCount = 0;
+        const phrases = [
+            "No", "Are you sure?", "Really sure?", "Junu, please?",
+            "Don't do this to me!", "I have a chocolate for you...", "Please babe!",
+            "I'm waiting...", "Click it babe❤️"
+        ];
+
+        function handleNo() {
+            noCount++;
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            
+            // Limit the growth so it doesn't cover the whole phone screen
+            const newSize = Math.min(noCount * 15 + 18, 100); 
+            yesBtn.style.fontSize = newSize + 'px';
+            yesBtn.style.padding = (newSize/2) + 'px ' + (newSize) + 'px';
+            
+            noBtn.innerText = phrases[Math.min(noCount, phrases.length - 1)];
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        function handleYes() {
+            // UI Updates
+            document.getElementById('displayImg').src = "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif";
+            document.getElementById('question').innerHTML = "I knew you'd say yes! I love you always, my love! ❤️<br><br><small style='font-size: 0.8rem;'>- From your forever Valentine ❤️</small>";
+            document.getElementById('btnContainer').style.display = 'none';
+
+            // Heart Rain Effect
+            setInterval(createHeart, 300);
+
+            // Notification
+            fetch("https://formspree.io/f/xpqlvogb", {
+                method: "POST",
+                body: JSON.stringify({ message: "JUNU SAID YES! ❤️" }),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            });
+        }
+    </script>
+</body>
+</html>
